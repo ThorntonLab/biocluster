@@ -1,6 +1,6 @@
 #Introduction
 
-This document is a terse tutorial reference on using the UCI High Performance Cluster, or [HPC](http://hpc.oit.uci.edu).
+This document is a terse tutorial/reference on using the UCI High Performance Cluster, or [HPC](http://hpc.oit.uci.edu).
 
 This is intended to me more up to date and easier to update than a previous [document](http://hpc.oit.uci.edu/~krthornt/BioClusterGE.pdf) that I have provided.  This document will not be as entry-level, and will assume some comfort in a Linux-like environment.
 
