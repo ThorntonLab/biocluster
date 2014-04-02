@@ -6,6 +6,10 @@ This is intended to me more up to date and easier to update than a previous [doc
 
 Currently, it is a list of useful commands for how to do various things.
 
+##Running jobs
+
+Good info [here](http://hpc.oit.uci.edu/running-jobs).
+
 ##Queues
 
 ###Queues available to your user
