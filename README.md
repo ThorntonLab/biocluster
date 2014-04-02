@@ -84,6 +84,38 @@ qstat -u username
 
 The above may all be mixed and matched
 
+##Array jobs
+
+"Array jobs" let you submit multiple copies of the same task using one script.  A common application in my work is simulation: one wishes to simulate 1,000 replicates of the same parameters.  Rather than write 1,000 scripts that differ only by the random number seed, I can do the following instead:
+
+```
+#!/bin/sh
+
+#$ -q bio
+#$ -t 1-1000
+
+SEED=`echo "$SGE_TASK_ID*$RANDOM"|bc -l`
+simulation param1 param2 $SEED | gzip > outfile.$SGE_TASK_ID.gz
+```
+
+The script shown above will spawn one job ID number with 1,000 task ID numbers.  Each instance has its own shell variable called SGE\_TASK\_ID.  The script uses this variable to write each replicate to a different file.  It also uses the task ID to make sure that each replicate gets a unique seed, to the best of our ability (two tasks starting on the same second will get the same value from \$RANDOM, but multiplying by \$SGE\_TASK\_ID will result in two different values for that case).  Another option is to store 1,000 unique seeds in a file. If we call that file "seedfile.txt", we can do this:
+
+```
+SEED=`head -n $SGE_TASK_ID seedfile.txt | tail -n 1`
+```
+
+This will pull the i-th seed out for the i-th replicate.
+
+###The above example is very, very bad!
+
+For large simulation projects, the above example is a disaster for distributed file systems, and it __SHOULD NOT__ be done. The reason why is described [here](http://moo.nac.uci.edu/~hjm/Job.Array.ZOT.html).
+
+ For programs that write to stdout (aka, "print to screen"), their output should be collected and written to a file using some form of file locking.  KRT has provided code for this [here](https://github.com/molpopgen/atomic_locker).  The UCI team that provides invaluable cluster support have provided solutions [here](http://moo.nac.uci.edu/~hjm/zotkill.pl), which can also be found from [here](http://moo.nac.uci.edu/~hjm/Job.Array.ZOT.html).
+
+For custom programs where the output file name is an option, I recommend some sort of POSIX file locking procedure to avoid writing zillions of files.  
+
+If you are using someone else's code that cannot be modified and will write to zillions of files in an array context, then you risk bringing your cluster's file system to its knees.
+
 ##Job resources
 
 ###Selecting multiple cores on one node.
