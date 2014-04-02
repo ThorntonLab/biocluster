@@ -149,6 +149,15 @@ make
 make install
 ```
 
+We can then see the it is installed:
+```
+ls -1 /data/apps/user_contributed_software/krthornt/libsequence/1.8.0 
+include
+lib
+```
+
+And the header files are in include and the libraries are in lib.
+
 You then need to make a module file:
 
 ```
@@ -158,7 +167,7 @@ mkdir /data/modulefiles/user_contributed_software/krthornt/modulename
 Then a file called /data/modulefiles/user_contributed_software/krthornt/modulename/version must be made which does the "right things".  For libsequence 1.7.8, this module file looks like the following, adding the correct paths to the CPPFLAGS and LDFLAGS variables:
 
 ```
-cat /data/modulefiles/user_contributed_software/krthornt/libsequence/1.7.8 
+cat /data/modulefiles/user_contributed_software/krthornt/libsequence/1.8.0
 #%Module1.0
 # ---------------------------------------------------------------------------
 # This module file will load to install a specific software mentioned below
@@ -166,17 +175,18 @@ cat /data/modulefiles/user_contributed_software/krthornt/libsequence/1.7.8
 # is self explanatory. Original work based off of Joseph's module files with
 # logger support from Harry.
 #
-# @author	    Adam Brenner	<aebrenne@uci.edu>
-# @version		2.0
-# @date			09/2012
+# @author           Adam Brenner        <aebrenne@uci.edu>
+# @version              2.0
+# @date                 09/2012
 
 
 module-whatis "A C++ class library for population genetic analysis.  From www.molpopgen.org"
 
-exec /bin/logger -p local6.notice -t module-hpc $env(USER) "krthornt/libsequence/1.16"
+exec /bin/logger -p local6.notice -t module-hpc $env(USER) "krthornt/libsequence/1.8.0"
 
-set ROOT /data/apps/user_contributed_software/krthornt/libsequence/1.7.8
+set ROOT /data/apps/user_contributed_software/krthornt/libsequence/1.8.0
 
+module load boost/1.53.0
 module load gcc/4.7.3
 module load zlib/1.2.7
 
@@ -199,3 +209,23 @@ prepend-path          INCLUDE           "$ROOT/include"
 # prepend-path  LIBS              "-l____"
 # prepend-path  CPPFLAGS          "-I $ROOT/include"
 ```
+
+Now, if I say
+
+```
+module load krthornt/libsequence/1.8.0
+```
+
+And then:
+
+```
+echo $LDFLAGS
+```
+
+I see:
+
+```
+-L/data/apps/user_contributed_software/krthornt/libsequence/1.8.0/lib -L/data/apps/gcc/4.7.3/lib64 -L/data/apps/gcc/4.7.3/lib -L/data/apps/boost/1.53.0/lib
+```
+
+
