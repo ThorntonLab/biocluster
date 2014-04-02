@@ -10,6 +10,30 @@ Currently, it is a list of useful commands for how to do various things.
 
 Good info [here](http://hpc.oit.uci.edu/running-jobs).
 
+In general a job script needs to look like this:
+
+```
+#!/bin/sh
+
+#Specify your queues
+#$ -q queue1,queue2
+
+#Optional: request resources
+#$ -pe openmp 8-32
+$# -R y
+
+#Optional: define the job as an array job
+#$ -t 1-10
+
+#Often needed: load necessary modules that your job needs
+module load module1
+module load module2
+
+#run the commands
+command1 (arguments)
+#etc.
+```
+
 ##Queues
 
 ###Queues available to your user
@@ -81,7 +105,7 @@ To request 16 to 64 cores:
 Then, when your job starts running, use the $CORES shell variable to tell your program how many cores to use.  For exampe, with the [bwa](http://bio-bwa.sourceforge.net/) aligner, a job may look like:
 
 ```
-#!sh
+#!/bin/sh
 
 #$ -q bio
 #$ -pe openmp 8-64
