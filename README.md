@@ -6,6 +6,56 @@ This is intended to me more up to date and easier to update than a previous [doc
 
 Currently, it is a list of useful commands for how to do various things.
 
+##Queues
+
+###Queues available to your user
+
+```
+q
+```
+
+###Submitting to a particular queue
+
+Add the following lines to your jobs:
+```
+#$ -q queue1,queue2
+```
+
+Or add the -q to your qsub command:
+
+```
+qsub -q queue1,queue2 job.sh
+```
+
+Concrete example:
+```
+#$ -q krt,bio,abio,pub64,free64
+```
+
+###What is going on with a queue?
+
+All the info:
+```
+qstat -q queuename
+```
+
+Just running jobs:
+```
+qstat -q queuename -s r
+```
+
+Just pending jobs:
+```
+qstat -q queuename -s p
+```
+
+Pending jobs submitted by a particular user:
+```
+qstat -u username
+```
+
+The above may all be mixed and matched
+
 ##Modules
 
 ###List available modules
