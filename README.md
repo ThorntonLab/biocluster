@@ -148,6 +148,14 @@ module load load bwa/0.7.7
 bwa aln -t $CORES in.fq > in.sai
 ```
 
+###Selecting nodes with a certain amount of memory.
+
+Some HPC nodes have 256GB memory.  This may not be enough.  You can select the 512GB nodes only:
+
+```
+#$ -l mem_size=512
+```
+
 ##Giving jobs names and pipelining jobs
 
 Sometimes, you wish to run job A, followed by job B.  Yes, you could issue the commands for jobs A and B in the same script, but that may waste resources if they require, for example, very different numbers of cores.  For example, job A could be an array job, and job B is a very fast job that goes through the output of A to do some calculation.
