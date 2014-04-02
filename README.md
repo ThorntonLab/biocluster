@@ -148,6 +148,41 @@ module load load bwa/0.7.7
 bwa aln -t $CORES in.fq > in.sai
 ```
 
+##Giving jobs names and pipelining jobs
+
+Sometimes, you wish to run job A, followed by job B.  Yes, you could issue the commands for jobs A and B in the same script, but that may waste resources if they require, for example, very different numbers of cores.  For example, job A could be an array job, and job B is a very fast job that goes through the output of A to do some calculation.
+
+We can "pipeline" our workflows using job names.
+
+For job A,
+
+```
+#!/bin/sh
+
+#$ -N JOBA
+
+##Do the rest of A's work
+```
+
+Then, for job B:
+
+```
+#!/bin/sh
+
+#$ -hold_jid JOBA
+
+##Do rest of B's work
+```
+
+Then, we submit to the queue:
+
+```
+qsub A.sh
+qsub B.sh
+```
+
+The result is that A will run as soon as its necessary resources are available.  Job "B" will remain held on the queue (status hqw) until job A completes, at which point the hold will release (changing B's status to qw) and B will execute as soon as sufficient resources become available.  This can be extended to job C, D, etc.
+
 ##Modules
 
 ###List available modules
