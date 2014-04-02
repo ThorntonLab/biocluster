@@ -56,6 +56,38 @@ qstat -u username
 
 The above may all be mixed and matched
 
+##Job resources
+
+###Selecting multiple cores on one node.
+
+To request 32 cores, add this to your job script:
+
+```
+#$ -pe openmp 32
+#$ -R y
+```
+
+To request 16 to 64 cores:
+
+```
+#$ -pe openmp 16-64
+#$ -R y
+```
+
+Then, when your job starts running, use the $CORES shell variable to tell your program how many cores to use.  For exampe, with the [bwa](http://bio-bwa.sourceforge.net/) aligner, a job may look like:
+
+```
+#!sh
+
+#$ -q bio
+#$ -pe openmp 8-64
+#$ -R y 
+
+module load load bwa/0.7.7
+
+bwa aln -t $CORES in.fq > in.sai
+```
+
 ##Modules
 
 ###List available modules
