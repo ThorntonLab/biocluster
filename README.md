@@ -2,7 +2,9 @@
 
 This document is a terse tutorial/reference on using the UCI High Performance Cluster, or [HPC](http://hpc.oit.uci.edu).
 
-This is intended to me more up to date and easier to update than a previous [document](http://hpc.oit.uci.edu/~krthornt/BioClusterGE.pdf) that I have provided.  This document will not be as entry-level, and will assume some comfort in a Linux-like environment.
+This is intended to be more up to date and easier to update than a previous [document](http://hpc.oit.uci.edu/~krthornt/BioClusterGE.pdf) that I have provided.   I suggest that users look there first for the basics.
+
+This document will not be as entry-level, and will assume some comfort in a Linux-like environment.
 
 Currently, it is a list of useful commands for how to do various things.
 
@@ -221,6 +223,12 @@ module load krthornt/libsequence/1.7.8
 ###Remove a loaded module
 ```
 module rm modulename
+```
+
+##Checkpointing (caveat emptor)
+
+```
+qsub -notify -r y -ckpt blcr -l kernel=blcr job.sh
 ```
 
 ###Installing your own modules
