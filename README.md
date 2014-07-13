@@ -193,6 +193,12 @@ qsub B.sh
 
 The result is that A will run as soon as its necessary resources are available.  Job "B" will remain held on the queue (status hqw) until job A completes, at which point the hold will release (changing B's status to qw) and B will execute as soon as sufficient resources become available.  This can be extended to job C, D, etc.
 
+The -hold_jid flag can take comma-separate, quoted wildcards as options, e.g.
+
+```{shell}
+qsub -hold_jid 'additive*','multiplicative*' ../h2.sh
+```
+
 ##Modules
 
 ###List available modules
