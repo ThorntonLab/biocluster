@@ -225,11 +225,18 @@ module load krthornt/libsequence/1.7.8
 module rm modulename
 ```
 
-##Checkpointing (caveat emptor)
+##&Checkpointing (caveat emptor)
 
 ```
 qsub -notify -r y -ckpt blcr -l kernel=blcr job.sh
 ```
+
+Or, this, which will just "kill and resubmit", and works quite well:
+
+~~~
+#$ -ckpt restart
+~~~
+
 
 ###Installing your own modules
 
