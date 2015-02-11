@@ -193,6 +193,12 @@ qsub B.sh
 
 The result is that A will run as soon as its necessary resources are available.  Job "B" will remain held on the queue (status hqw) until job A completes, at which point the hold will release (changing B's status to qw) and B will execute as soon as sufficient resources become available.  This can be extended to job C, D, etc.
 
+The -hold_jid flag can take comma-separate, quoted wildcards as options, e.g.
+
+```{shell}
+qsub -hold_jid 'additive*','multiplicative*' ../h2.sh
+```
+
 ##Modules
 
 ###List available modules
@@ -342,4 +348,12 @@ I see:
 -L/data/apps/user_contributed_software/krthornt/libsequence/1.8.0/lib -L/data/apps/gcc/4.7.3/lib64 -L/data/apps/gcc/4.7.3/lib -L/data/apps/boost/1.53.0/lib
 ```
 
+##Changing the relative priorities of your jobs
 
+Let's say that you have jobs A and B in the queue, and both is waiting for resources with A ahead of B.  You want to change things so that B runs first.  You can alter the relative priority of B like this:
+
+```
+qalter -js 100 B
+```
+
+The above is a hint from [here](http://www.ace-net.ca/wiki/FAQ#I_need_to_change_the_order_of_my_waiting_jobs)
